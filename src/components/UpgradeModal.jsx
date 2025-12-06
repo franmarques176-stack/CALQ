@@ -9,10 +9,35 @@ import { useCalqStore } from '../store/useCalqStore';
 const UpgradeModal = ({ isOpen, onClose, feature = 'esta función' }) => {
   const paypalButtonsRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
   const { setUser } = useCalqStore();
 
+  // Cargar PayPal SDK dinámicamente con variables de entorno
   useEffect(() => {
-    if (!isOpen || !window.paypal) return;
+    const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID || 'YOUR_CLIENT_ID';
+    
+    if (window.paypal) {
+      setPaypalLoaded(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&vault=true&intent=subscription`;
+    script.async = true;
+    script.onload = () => setPaypalLoaded(true);
+    script.onerror = () => console.error('Error loading PayPal SDK');
+    
+    document.body.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen || !paypalLoaded || !window.paypal) return;
 
     // Limpiar botones previos
     if (paypalButtonsRef.current) {
@@ -29,9 +54,9 @@ const UpgradeModal = ({ isOpen, onClose, feature = 'esta función' }) => {
           label: 'subscribe'
         },
         createSubscription: function(data, actions) {
+          const planId = import.meta.env.VITE_PAYPAL_PLAN_ID || 'P-XXXXXXXXXXXXXXXXXX';
           return actions.subscription.create({
-            // IMPORTANTE: Reemplaza con tu PLAN ID real de PayPal
-            plan_id: 'P-XXXXXXXXXXXXXXXXXX' // Tu Plan ID aquí
+            plan_id: planId
           });
         },
         onApprove: function(data, actions) {
@@ -158,7 +183,7 @@ const UpgradeModal = ({ isOpen, onClose, feature = 'esta función' }) => {
               className="min-h-[150px] flex items-center justify-center"
             >
               {/* PayPal buttons will render here */}
-              {!window.paypal && (
+              {!paypalLoaded && (
                 <div className="text-center p-4">
                   <p className="text-slate-500 mb-2">Cargando pasarela de pago segura...</p>
                   <div className="animate-pulse flex justify-center gap-2">
