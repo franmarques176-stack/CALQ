@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Send, Trash2, Sparkles, TrendingUp, BookOpen, Settings } from 'lucide-react';
+import { Send, Trash2, Sparkles, TrendingUp, BookOpen, Settings, HelpCircle } from 'lucide-react';
 import ChatMessage from './components/ChatMessage';
 import ConfirmModal from './components/ConfirmModal';
 import GraphViewer from './components/GraphViewer';
 import AIAssistant from './components/AIAssistant';
 import StepByStepViewer from './components/StepByStepViewer';
 import UpgradeModal from './components/UpgradeModal';
+import FAQModal from './components/FAQModal';
 import ThemeSelector from './components/ThemeSelector';
 import { processMathInput, generateUniqueId } from './utils/mathLogic';
 import { solveStepByStep } from './utils/stepSolver';
@@ -28,6 +29,8 @@ function App() {
   const [showStepsModal, setShowStepsModal] = useState(false);
   const [currentSteps, setCurrentSteps] = useState([]);
   const [currentExpression, setCurrentExpression] = useState('');
+  
+  const [showFAQModal, setShowFAQModal] = useState(false);
   
   // Store global
   const { 
@@ -255,6 +258,16 @@ function App() {
             </button>
           )}
           
+          <button
+            onClick={() => setShowFAQModal(true)}
+            className={`p-3 rounded-full ${
+              theme === 'dark' ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'
+            } active:scale-95 transition-all shadow-[4px_4px_8px_#0b1120,-4px_-4px_8px_#1e293b]`}
+            title="Preguntas Frecuentes"
+          >
+            <HelpCircle size={20} />
+          </button>
+          
           <button 
             onClick={() => setShowConfirmModal(true)}
             className={`p-3 rounded-full ${
@@ -402,6 +415,11 @@ function App() {
         isOpen={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
         feature="IA ilimitada y solver paso a paso"
+      />
+      
+      <FAQModal
+        isOpen={showFAQModal}
+        onClose={() => setShowFAQModal(false)}
       />
     </div>
   );
