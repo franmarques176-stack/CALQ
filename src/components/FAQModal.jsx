@@ -32,7 +32,7 @@ const FAQModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-slate-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="glass-effect hover-lift rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-cyan-500/20">
         {/* Header */}
         <div className="p-6 border-b border-slate-700 flex items-center justify-between">
           <div>

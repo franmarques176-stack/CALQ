@@ -121,9 +121,9 @@ const UpgradeModal = ({ isOpen, onClose, feature = 'esta función' }) => {
         onClick={onClose}
       />
       
-      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl w-full max-w-2xl shadow-2xl border border-yellow-500/30 overflow-hidden">
+      <div className="relative glass-effect rounded-2xl w-full max-w-2xl shadow-2xl border border-yellow-500/30 overflow-hidden animate-float">
         {/* Premium Badge */}
-        <div className="absolute top-0 right-0 bg-gradient-to-br from-yellow-500 to-yellow-600 px-4 py-1 rounded-bl-xl">
+        <div className="absolute top-0 right-0 bg-gradient-to-br from-yellow-500 to-yellow-600 px-4 py-1 rounded-bl-xl glow-gold">
           <span className="text-xs font-bold text-slate-900">PREMIUM</span>
         </div>
 
@@ -142,9 +142,9 @@ const UpgradeModal = ({ isOpen, onClose, feature = 'esta función' }) => {
 
         {/* Pricing */}
         <div className="px-8 pb-6">
-          <div className="bg-slate-900/50 border border-yellow-500/20 rounded-xl p-6 mb-6">
+          <div className="glass-effect rounded-xl p-6 mb-6 border border-yellow-500/20 hover-lift">
             <div className="flex items-baseline justify-center gap-2 mb-2">
-              <span className="text-5xl font-bold text-yellow-400">$4.99</span>
+              <span className="text-5xl font-bold text-yellow-400 animate-pulse-subtle">$4.99</span>
               <span className="text-slate-400">/mes</span>
             </div>
             <p className="text-center text-sm text-slate-500 mb-4">

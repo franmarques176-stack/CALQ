@@ -12,6 +12,7 @@ import ThemeSelector from './components/ThemeSelector';
 import { processMathInput, generateUniqueId } from './utils/mathLogic';
 import { solveStepByStep } from './utils/stepSolver';
 import { useCalqStore } from './store/useCalqStore';
+import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 
 function App() {
   // --- ESTADOS ---
@@ -227,23 +228,35 @@ function App() {
     inputRef.current?.focus();
   };
 
+  // Atajos de teclado
+  useKeyboardShortcuts({
+    onClear: () => setShowConfirmModal(true),
+    onOpenGraph: () => isPremium ? setShowGraphModal(true) : setShowUpgradeModal(true),
+    onOpenAI: handleOpenAI,
+    onOpenHelp: () => setShowFAQModal(true),
+    onOpenSteps: handleShowSteps
+  });
+
   return (
     <div className={`flex flex-col h-screen ${theme === 'dark' ? 'bg-slate-900 text-slate-200' : 'bg-white text-slate-900'
-      } overflow-hidden font-sans`}>
+      } overflow-hidden font-sans relative`}>
+      
+      {/* Partículas Animadas de Fondo */}
+      <ParticlesBackground theme={theme} />
       
       {/* HEADER CALQ */}
-      <header className={`flex justify-between items-center p-5 z-10 ${
-        theme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'
-      } shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)]`}>
+      <header className={`flex justify-between items-center p-5 z-10 glass-effect border-b ${
+        theme === 'dark' ? 'border-slate-700/50' : 'border-slate-200'
+      }`}>
         <div className="flex items-center gap-3">
           {/* Logo */}
-          <div className="w-10 h-10 bg-cyan-600 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(8,145,178,0.4)]">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center glow-cyan animate-float">
             <span className="text-slate-100 font-bold text-xl font-mono">Q</span>
           </div>
           
           <div className="flex flex-col justify-center">
             <h1 className="text-2xl font-bold tracking-widest text-slate-100 font-sans leading-none">CALQ</h1>
-            <span className="text-[10px] text-cyan-500 tracking-[0.2em] uppercase font-semibold">Pro Edition</span>
+            <span className="text-[10px] text-cyan-500 tracking-[0.2em] uppercase font-semibold animate-pulse-subtle">Pro Edition</span>
           </div>
         </div>
 
