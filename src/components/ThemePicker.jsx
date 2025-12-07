@@ -14,8 +14,8 @@ const ThemePicker = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="glass-effect border border-slate-700 rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="glass-effect border border-slate-700 rounded-2xl p-6 max-w-3xl w-full my-8">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-2xl font-bold text-white">Elige tu Tema</h2>
@@ -26,7 +26,7 @@ const ThemePicker = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {themeList.map((theme) => (
             <ThemeCard
               key={theme.id}
