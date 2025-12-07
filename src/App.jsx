@@ -245,17 +245,21 @@ function App() {
       <ParticlesBackground theme={theme} />
       
       {/* HEADER CALQ */}
-      <header className={`flex justify-between items-center p-5 z-10 glass-effect border-b ${
-        theme === 'dark' ? 'border-slate-700/50' : 'border-slate-200'
+      <header className={`flex justify-between items-center p-5 z-10 border-b ${
+        theme === 'dark' ? 'glass-effect border-slate-700/50' : 'glass-effect-light border-slate-300'
       }`}>
         <div className="flex items-center gap-3">
           {/* Logo */}
-          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center glow-cyan animate-float">
-            <span className="text-slate-100 font-bold text-xl font-mono">Q</span>
+          <div className={`w-10 h-10 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center animate-float ${
+            theme === 'dark' ? 'glow-cyan' : 'shadow-lg shadow-cyan-500/30'
+          }`}>
+            <span className="text-white font-bold text-xl font-mono">Q</span>
           </div>
           
           <div className="flex flex-col justify-center">
-            <h1 className="text-2xl font-bold tracking-widest text-slate-100 font-sans leading-none">CALQ</h1>
+            <h1 className={`text-2xl font-bold tracking-widest font-sans leading-none ${
+              theme === 'dark' ? 'text-slate-100' : 'text-slate-900'
+            }`}>CALQ</h1>
             <span className="text-[10px] text-cyan-500 tracking-[0.2em] uppercase font-semibold animate-pulse-subtle">Pro Edition</span>
           </div>
         </div>
@@ -296,7 +300,7 @@ function App() {
 
       {/* TOOLBAR */}
       <div className={`flex gap-2 px-4 py-3 border-b ${
-        theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-slate-200 bg-slate-50'
+        theme === 'dark' ? 'glass-effect border-slate-700/50' : 'glass-effect-light border-slate-300'
       }`}>
         <button
           onClick={handleOpenAI}
