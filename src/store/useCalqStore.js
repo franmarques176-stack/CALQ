@@ -12,6 +12,10 @@ export const useCalqStore = create(
       theme: 'dark',
       setTheme: (theme) => set({ theme }),
       
+      // Tema de colores personalizado
+      selectedTheme: 'default',
+      setSelectedTheme: (themeName) => set({ selectedTheme: themeName }),
+      
       // User & Auth
       user: null,
       isPremium: false,
