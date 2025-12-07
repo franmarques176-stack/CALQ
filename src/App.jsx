@@ -263,8 +263,8 @@ function App() {
       }`}>
         <div className="flex items-center gap-3">
           {/* Logo */}
-          <div className={`w-10 h-10 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center animate-float ${
-            theme === 'dark' ? 'glow-cyan' : 'shadow-lg shadow-cyan-500/30'
+          <div className={`w-10 h-10 bg-theme-primary rounded-xl flex items-center justify-center animate-float ${
+            theme === 'dark' ? 'glow-theme-primary' : 'shadow-lg shadow-theme-primary'
           }`}>
             <span className="text-white font-bold text-xl font-mono">Q</span>
           </div>
@@ -273,7 +273,7 @@ function App() {
             <h1 className={`text-2xl font-bold tracking-widest font-sans leading-none ${
               theme === 'dark' ? 'text-slate-100' : 'text-slate-900'
             }`}>CALQ</h1>
-            <span className="text-[10px] text-cyan-500 tracking-[0.2em] uppercase font-semibold animate-pulse-subtle">Pro Edition</span>
+            <span className="text-[10px] text-theme-primary tracking-[0.2em] uppercase font-semibold animate-pulse-subtle">Pro Edition</span>
           </div>
         </div>
 
@@ -292,7 +292,7 @@ function App() {
           <button
             onClick={() => setShowFAQModal(true)}
             className={`p-3 rounded-full ${
-              theme === 'dark' ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'
+              theme === 'dark' ? 'text-slate-400 hover-text-theme-accent' : 'text-slate-600 hover-text-theme-accent'
             } active:scale-95 transition-all shadow-[4px_4px_8px_#0b1120,-4px_-4px_8px_#1e293b]`}
             title="Preguntas Frecuentes"
           >
@@ -317,7 +317,7 @@ function App() {
       }`}>
         <button
           onClick={handleOpenAI}
-          className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-sm transition-colors shadow-lg shadow-cyan-600/20"
+          className="flex items-center gap-2 px-4 py-2 bg-theme-primary hover-bg-theme-primary-dark text-white rounded-lg text-sm transition-colors shadow-lg shadow-theme-primary"
         >
           <Sparkles size={16} />
           Asistente IA {!isPremium && `(${20 - useCalqStore.getState().aiQueriesUsed}/20)`}
@@ -328,7 +328,7 @@ function App() {
           disabled={!graphExpression}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors ${
             graphExpression
-              ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-600/20'
+              ? 'bg-theme-accent hover-bg-theme-primary-dark text-white shadow-lg shadow-theme-accent'
               : 'bg-slate-700 text-slate-500 cursor-not-allowed'
           }`}
         >
@@ -341,7 +341,7 @@ function App() {
           disabled={!input.trim()}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors ${
             input.trim()
-              ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20'
+              ? 'bg-theme-accent hover-bg-theme-primary-dark text-white shadow-lg shadow-theme-accent'
               : 'bg-slate-700 text-slate-500 cursor-not-allowed'
           }`}
         >
@@ -402,7 +402,7 @@ function App() {
             className={`
               p-3 rounded-full transition-all duration-300 transform
               ${input.trim() && !isProcessing
-                ? 'bg-cyan-600 text-white shadow-[0_0_15px_rgba(8,145,178,0.5)] scale-100 rotate-0' 
+                ? 'bg-theme-primary text-white shadow-theme-primary scale-100 rotate-0' 
                 : 'bg-slate-800 text-slate-600 scale-90 -rotate-45'
               }
             `}
