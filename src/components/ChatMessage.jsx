@@ -6,7 +6,7 @@ const ChatMessage = ({ text, isUser, isError, originalExpression }) => {
   const displayText = typeof text === 'string' ? text : String(text);
   const { theme } = useCalqStore();
 
-  // Solo renderizar LaTeX para resultados numéricos con expresión original
+  // Solo renderizar expresión original para resultados numéricos con expresión original
   const shouldRenderMath = !isUser && originalExpression && !isError;
   const isSimpleNumber = /^-?\d+(\.\d+)?$/.test(displayText);
 
@@ -41,7 +41,7 @@ const ChatMessage = ({ text, isUser, isError, originalExpression }) => {
               <div className="text-lg font-bold text-cyan-400">= {displayText}</div>
             </div>
           ) : (
-            display Text
+            displayText
           )}
         </div>
       </div>

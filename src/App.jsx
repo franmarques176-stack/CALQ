@@ -138,11 +138,12 @@ function App() {
 
     // 2. Respuesta CALQ
     setTimeout(() => {
-      const { result, newScope, isError } = processMathInput(userText, mathScope);
+      const { result, originalInput, newScope, isError } = processMathInput(userText, mathScope);
       
       const newAppMsg = { 
         id: generateUniqueId(), 
         text: result, 
+        originalExpression: originalInput,
         isUser: false, 
         isError 
       };
@@ -343,6 +344,7 @@ function App() {
           <ChatMessage 
             key={msg.id} 
             text={msg.text} 
+            originalExpression={msg.originalExpression}
             isUser={msg.isUser} 
             isError={msg.isError} 
           />
