@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCalqStore } from '../store/useCalqStore';
+import MathRenderer from './MathRenderer';
 
 const ChatMessage = ({ text, isUser, isError }) => {
   // Sanitización básica para prevenir XSS (el texto ya viene sanitizado de mathLogic)
@@ -29,9 +30,10 @@ const ChatMessage = ({ text, isUser, isError }) => {
           }
         `}
       >
-        <span className={isUser ? 'font-sans' : 'font-mono font-medium'}>
-          {displayText}
-        </span>
+        <div className={isUser ? 'font-sans' : 'font-mono font-medium'}>
+          {/* Renderizar con LaTeX solo para mensajes de CALQ (no usuario) */}
+          {isUser ? displayText : <MathRenderer text={displayText} />}
+        </div>
       </div>
     </div>
   );
