@@ -4,13 +4,13 @@ import { evaluate, format } from 'mathjs';
  * Procesa la entrada del usuario usando mathjs.
  * @param {string} input - Texto del usuario (ej: "a = 10" o "a + 5")
  * @param {object} currentScope - Objeto con las variables actuales
- * @returns {object} - { result: string|number, newScope: object, isError: boolean }
+ * @returns {object} - { result: string|number, originalInput: string, newScope: object, isError: boolean }
  */
 export const processMathInput = (input, currentScope) => {
   // 1. Limpieza básica
   const cleanInput = input.trim();
   
-  if (!cleanInput) return { result: null, newScope: currentScope, isError: false };
+  if (!cleanInput) return { result: null, originalInput: '', newScope: currentScope, isError: false };
 
   // Clonamos el scope profundamente para evitar mutaciones
   const scopeClone = JSON.parse(JSON.stringify(currentScope));
@@ -62,6 +62,7 @@ export const processMathInput = (input, currentScope) => {
 
     return {
       result: displayResult,
+      originalInput: cleanInput, // Agregamos la expresión original
       newScope: scopeClone,
       isError: false
     };
@@ -87,6 +88,7 @@ export const processMathInput = (input, currentScope) => {
 
     return {
       result: errorMessage,
+      originalInput: cleanInput,
       newScope: currentScope, // El scope no cambia si hay error
       isError: true
     };
@@ -107,7 +109,7 @@ export const generateUniqueId = () => {
 
 /**
  * Sanitiza texto para prevenir XSS
- * @param {string} text - Texto a sanitizar
+ * @param {string} text - Texto a sanitizar  
  * @returns {string} Texto sanitizado
  */
 export const sanitizeText = (text) => {

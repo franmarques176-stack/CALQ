@@ -1,11 +1,14 @@
 import React from 'react';
 import { useCalqStore } from '../store/useCalqStore';
-import MathRenderer from './MathRenderer';
 
-const ChatMessage = ({ text, isUser, isError }) => {
+const ChatMessage = ({ text, isUser, isError, originalExpression }) => {
   // Sanitización básica para prevenir XSS (el texto ya viene sanitizado de mathLogic)
   const displayText = typeof text === 'string' ? text : String(text);
   const { theme } = useCalqStore();
+
+  // Solo renderizar LaTeX para resultados numéricos con expresión original
+  const shouldRenderMath = !isUser && originalExpression && !isError;
+  const isSimpleNumber = /^-?\d+(\.\d+)?$/.test(displayText);
 
   return (
     <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -31,8 +34,15 @@ const ChatMessage = ({ text, isUser, isError }) => {
         `}
       >
         <div className={isUser ? 'font-sans' : 'font-mono font-medium'}>
-          {/* Renderizar con LaTeX solo para mensajes de CALQ (no usuario) */}
-          {isUser ? displayText : <MathRenderer text={displayText} />}
+          {shouldRenderMath && isSimpleNumber ? (
+            // Mostrar expresión original + resultado
+            <div>
+              <div className="text-sm opacity-75 mb-1">{originalExpression}</div>
+              <div className="text-lg font-bold text-cyan-400">= {displayText}</div>
+            </div>
+          ) : (
+            display Text
+          )}
         </div>
       </div>
     </div>
@@ -51,7 +61,8 @@ ChatMessage.propTypes = {
       return new Error(`Prop '${propName}' must be a boolean.`);
     }
   },
-  isError: () => null // Opcional
+  isError: () => null, // Opcional
+  originalExpression: () => null // Opcional
 };
 
 export default React.memo(ChatMessage);
