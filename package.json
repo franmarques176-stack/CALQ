@@ -6,7 +6,15 @@
   "description": "CALQ - La mejor calculadora matemática del mundo con IA",
   "author": "CALQ Team",
   "license": "MIT",
-  "keywords": ["calculator", "math", "react", "vite", "pwa", "ai", "graphs"],
+  "keywords": [
+    "calculator",
+    "math",
+    "react",
+    "vite",
+    "pwa",
+    "ai",
+    "graphs"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/tu-usuario/calq.git"
@@ -18,26 +26,27 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "function-plot": "^1.23.3",
+    "katex": "^0.16.25",
+    "lucide-react": "^0.292.0",
+    "mathjs": "^12.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "mathjs": "^12.0.0",
-    "lucide-react": "^0.292.0",
-    "function-plot": "^1.23.3",
-    "zustand": "^4.4.7",
-    "katex": "^0.16.9"
+    "react-katex": "^3.1.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.5",
-    "vite": "^5.0.0",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5"
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "vite": "^5.0.0"
   },
   "engines": {
     "node": ">=16.0.0",
