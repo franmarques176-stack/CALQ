@@ -7,6 +7,7 @@ import AIAssistant from './components/AIAssistant';
 import StepByStepViewer from './components/StepByStepViewer';
 import UpgradeModal from './components/UpgradeModal';
 import FAQModal from './components/FAQModal';
+import ParticlesBackground from './components/ParticlesBackground';
 import ThemeSelector from './components/ThemeSelector';
 import { processMathInput, generateUniqueId } from './utils/mathLogic';
 import { solveStepByStep } from './utils/stepSolver';
