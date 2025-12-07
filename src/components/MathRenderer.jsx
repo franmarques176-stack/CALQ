@@ -1,14 +1,19 @@
 import React from 'react';
-import { InlineMath, BlockMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 
 /**
  * Componente para renderizar expresiones matemáticas con LaTeX
  * Detecta automáticamente patrones matemáticos y los renderiza visualmente
  */
-const MathRenderer = ({ text }) => {
-  if (!text || typeof text !== 'string') {
+const MathRenderer = ({ text, showOriginalInput }) => {
+  if (!text || typeof text === 'string') {
     return <span>{String(text)}</span>;
+  }
+
+  // Para mensajes que son solo números, retornamos tal cual
+  if (/^-?\d+(\.\d+)?$/.test(text)) {
+    return <span className="text-lg font-bold">{text}</span>;
   }
 
   // Función para convertir notación matemática común a LaTeX
@@ -18,11 +23,11 @@ const MathRenderer = ({ text }) => {
     // sqrt(x) → \sqrt{x}
     latex = latex.replace(/sqrt\(([^)]+)\)/g, '\\sqrt{$1}');
     
-    // Potencias: x^2 → x^{2}
-    latex = latex.replace(/\^(\d+)/g, '^{$1}');
-    latex = latex.replace(/\^([a-zA-Z])/g, '^{$1}');
+    // Potencias: x^2 → x^{2}, 2^3 → 2^{3}
+    latex = latex.replace(/([a-zA-Z0-9]+)\^(\d+)/g, '$1^{$2}');
+    latex =latex.replace(/([a-zA-Z0-9]+)\^([a-zA-Z])/g, '$1^{$2}');
     
-    // Fracciones: a/b → \frac{a}{b} (solo para expresiones simples)
+    // Fracciones: a/b → \frac{a}{b}
     latex = latex.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
     
     // Pi
@@ -32,28 +37,16 @@ const MathRenderer = ({ text }) => {
     latex = latex.replace(/\bsin\b/g, '\\sin');
     latex = latex.replace(/\bcos\b/g, '\\cos');
     latex = latex.replace(/\btan\b/g, '\\tan');
-    latex = latex.replace(/\barcsin\b/g, '\\arcsin');
-    latex = latex.replace(/\barccos\b/g, '\\arccos');
-    latex = latex.replace(/\barctan\b/g, '\\arctan');
     
     // Logaritmos
     latex = latex.replace(/\blog\b/g, '\\log');
     latex = latex.replace(/\bln\b/g, '\\ln');
     
+    // Raíz cuadrada symbol
+    latex = latex.replace(/√/g, '\\sqrt');
+    
     // Infinito
-    latex = latex.replace(/\binfinity\b/g, '\\infty');
     latex = latex.replace(/∞/g, '\\infty');
-    
-    // Integral
-    latex = latex.replace(/integral\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^)]+)\)/g, 
-      '\\int_{$3}^{$4} $1 \\, d$2');
-    
-    // Suma
-    latex = latex.replace(/sum\(([^,]+),\s*([^,]+),\s*([^)]+)\)/g, 
-      '\\sum_{$2}^{$3} $1');
-    
-    // Límite
-    latex = latex.replace(/lim\(([^,]+),\s*([^)]+)\)/g, '\\lim_{$1} $2');
     
     return latex;
   };
@@ -62,15 +55,13 @@ const MathRenderer = ({ text }) => {
   const hasMath = (str) => {
     const mathPatterns = [
       /sqrt\(/,
-      /\^[\d{]/,
+      /\^/,
       /\b(sin|cos|tan|log|ln)\b/,
-      /\\frac/,
-      /\\sqrt/,
       /\bpi\b/,
-      /integral\(/,
-      /sum\(/,
-      /[\+\-\*\/]\s*[\(\)\d]/,
-      /[a-zA-Z]\^/
+      /√/,
+      /∞/,
+      /[a-zA-Z]\d/,  // Variables con números
+      /\+|\-|\*|\//   // Operadores
     ];
     
     return mathPatterns.some(pattern => pattern.test(str));
@@ -82,26 +73,11 @@ const MathRenderer = ({ text }) => {
   }
 
   try {
-    // Separar texto y expresiones matemáticas
-    // Por ahora, renderizamos todo como inline math si detectamos patrones
     const latex = convertToLatex(text);
-    
-    // Si la expresión es muy corta o simple, inline
-    // Si es compleja o tiene integrales/sumas, block
-    const isBlockMath = /\\int|\\sum|\\frac/.test(latex) && latex.length > 20;
-    
-    if (isBlockMath) {
-      return (
-        <div className="my-2">
-          <BlockMath math={latex} />
-        </div>
-      );
-    } else {
-      return <InlineMath math={latex} />;
-    }
+    return <InlineMath math={latex} />;
   } catch (error) {
     // Si falla el renderizado LaTeX, mostrar texto original
-    console.warn('LaTeX rendering error:', error);
+    console.warn('LaTeX rendering error:', error, 'for text:', text);
     return <span>{text}</span>;
   }
 };
