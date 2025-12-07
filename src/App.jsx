@@ -13,6 +13,7 @@ import { processMathInput, generateUniqueId } from './utils/mathLogic';
 import { solveStepByStep } from './utils/stepSolver';
 import { useCalqStore } from './store/useCalqStore';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
+import { getTheme } from './config/themes';
 
 function App() {
   // --- ESTADOS ---
@@ -37,6 +38,7 @@ function App() {
   // Store global
   const { 
     theme,
+    selectedTheme,
     isPremium, 
     canUseAI, 
     incrementAiQueries,
@@ -117,6 +119,16 @@ function App() {
   useEffect(() => {
     document.documentElement.className = theme;
   }, [theme]);
+
+  // Aplicar colores del tema seleccionado
+  useEffect(() => {
+    const themeConfig = getTheme(selectedTheme);
+    const root = document.documentElement;
+    
+    Object.entries(themeConfig.colors).forEach(([key, value]) => {
+      root.style.setProperty(`--calq-color-${key}`, value);
+    });
+  }, [selectedTheme]);
 
   // --- HANDLERS ---
 
